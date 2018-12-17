@@ -58,3 +58,43 @@ False
 >>> int('10101', 2) & (1 << (n - 1)) != 0
 True
 ```
+
+### 組み合わせと順序（No.14）
+
+`itertools` ライブラリを使わずに実装
+
+```python
+def combinations(l, i, r):
+    if i == 0:
+        return [r]
+    ll = l[::]
+    res = []
+    for k in range(len(l)):
+        rr = r[::]
+        rr.append(l[k])
+        ll.remove(l[k])
+        res.extend(combinations(ll, i - 1, rr))
+    return res
+
+
+def permutations(l, i, r):
+    if i == 0:
+        return [r]
+    res = []
+    for k in range(len(l)):
+        rr = r[::]
+        rr.append(l[k])
+        v = l.pop(k)
+        res.extend(permutations(l, i - 1, rr))
+        l.insert(k, v)
+    return res
+
+
+def main():
+    print(combinations([1, 2, 3, 4, 5], 3, []))
+    print(permutations([1, 2, 3, 4, 5], 3, []))
+
+
+if __name__ in '__main__':
+    main()
+```
