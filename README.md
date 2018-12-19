@@ -41,7 +41,7 @@ n 桁の自然数のうち、その各桁の数をその数で累乗した値の
 
 ビット数をフラグに見立てて、n の状態をビット列にメモする。
 
-```python
+```py
 >>> n = 5
 >>> int('10101', 2) & (1 << (n - 1)) != 0
 True
@@ -63,7 +63,7 @@ True
 
 `itertools` ライブラリを使わずに実装
 
-```python
+```py
 def combinations(l, i, r):
     if i == 0:
         return [r]
@@ -97,4 +97,17 @@ def main():
 
 if __name__ in '__main__':
     main()
+```
+
+### ユークリッドの互除法（No.16）
+
+> 2 つの自然数 a、b（a≧b）について、a の b による剰余が r のとき、「a と b の最大公約数」と「b と r の最大公約数」が等しい
+
+つまり、除数（割る数）を余りで割る計算を繰り返し、余りが 0 になる時の除数が最大公約数となる。
+
+```py
+def euclidean(a, b):
+    if a % b == 0:
+        return b
+    return euclidean(b, a % b)
 ```
