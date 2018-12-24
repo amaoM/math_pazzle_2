@@ -8,7 +8,7 @@ def div(x, y, memo):
     cnt = 0
     if 5 >= x >= 2:
         cnt += 1
-    for xx in range(2, x // 2 + 1):
+    for xx in range(2, 6):
         cnt += div(x - xx * 2, y, memo)
     memo[(x, y)] = cnt
     return cnt
@@ -22,8 +22,6 @@ def main():
         if N % x != 0:
             continue
         y = N // x
-        if x == y:
-            continue
 
         cnt += div(x, y, {})
 
