@@ -1,33 +1,38 @@
 N = 16
 
 
-def move(left, right, wl, island, cnt):
-    if left == right:
-        return cnt
+def check(island):
+    pos = (0, N)
+    q = [pos]
+    log = {}
+    log[pos] = 0
+    while len(q) > 0:
+        left, right = q.pop(0)
+        for lt in range(left - 1, left + 2, 2):
+            for rt in range(right - 1, right + 2, 2):
+                if lt == rt:
+                    return log[(left, right)] + 2
+                if lt >= 0 and N >= rt and island[lt] == island[rt]:
+                    if rt > lt and (lt, rt) not in log:
+                        q.append((lt, rt))
+                        log[(lt, rt)] = log[(left, right)] + 2
+    return -1
 
-    if 0 <= left <= N and 0 <= right <= N:
-        island[left] = wl + 1
-        island[right] = wl + 1
-        a = move(left + 1, right - 1, wl + 1, island[::], cnt + 2)
 
-        if wl > 0:
-            island[left] = wl - 1
-            island[right] = wl - 1
-            b = move(left + 1, right - 1, wl - 1, island[::], cnt + 2)
-
-            island[left] = wl - 1
-            c = move(left + 1, right + 1, wl - 1, island[::], cnt + 2)
-
-            island[right] = wl - 1
-            d = move(left - 1, right - 1, wl - 1, island[::], cnt + 2)
-
-            return max(a, b, c, d)
-        return a
-    return 0
+def search(island, left, level):
+    island[left] = level
+    if left == N:
+        return check(island)
+    m = -1
+    if level > 0:
+        m = max(m, search(island, left + 1, level - 1))
+    if N > left + level:
+        m = max(m, search(island, left + 1, level + 1))
+    return m
 
 
 def main():
-    print(move(1, N - 1, 0, [0 for _ in range(N + 1)], 2))
+    print(search([-1 for _ in range(N + 1)], 0, 0))
 
 
 if __name__ == '__main__':
